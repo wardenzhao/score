@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.thinkjoy.hsll.dao.UserDao">
+
+    <select id="getUserByUsername" resultType="cn.thinkjoy.hsll.bean.User">
+        select id as id, username as username, name as name, password as password, phone as phone, type as type, status as status,create_time as createTime
+        FROM user
+        WHERE username = #{username}
+    </select>
+
+    <select id="getUserList" resultType="cn.thinkjoy.hsll.bean.User">
+        select id as id, username as username, name as name, password as password, phone as phone, type as type, status as status,create_time as createTime
+        FROM user
+        WHERE 1=1
+        <if test="username!=null and username!=''"> AND username like CONCAT(CONCAT('%',#{username}),'%')</if>
+        <if test="name!=null and name!=''"> AND name like CONCAT(CONCAT('%',#{name}),'%')</if>
+        order by id desc
+        limit ${(page-1)*pageSize},${pageSize}
+    </select>
+
+
+    <insert id="insertData">
+        INSERT INTO user(username,name,password,phone,usercode,type,status,create_time)
+        VALUES (#{user.username},#{user.name},#{user.password},#{user.phone},#{user.usercode},#{user.type},#{user.status},#{user.createTime})
+    </insert>
+
+    <update id="updateData">
+        UPDATE user
+        set username = #{user.username},
+        name = #{user.name}
+        <if test="user.password!=null and user.password!=''">
+            ,password = #{user.password}
+        </if>
+        <if test="user.phone!=null and user.phone!=''">
+            ,phone = #{user.phone}
+        </if>
+        where id = #{user.id}
+    </update>
+
+    <select id="findOneById" resultType="cn.thinkjoy.hsll.bean.User">
+        select id as id, username as username, name as name, password as password, phone as phone, type as type, status as status,create_time as createTime
+        FROM user
+        WHERE id=#{id}
+    </select>
+
+    <delete id="deleteById">
+        DELETE FROM user where id = #{id}
+    </delete>
+</mapper>
+

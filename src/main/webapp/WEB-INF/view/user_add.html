@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>后台管理</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="../assets/css/ready.css">
+    <link rel="stylesheet" href="../assets/css/demo.css">
+</head>
+<body>
+<div class="wrapper">
+    <div class="main-header">
+        <div class="logo-header">
+            <a href="index.html" class="logo">
+                成绩管理系统
+            </a>
+            <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+        </div>
+    </div>
+    <div class="sidebar">
+        <div class="scrollbar-inner sidebar-wrapper">
+            <div class="user">
+                <div class="photo">
+                    <img src="../assets/img/profile.jpg">
+                </div>
+                <div class="info">
+                    <a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+								<span>
+									admin
+									<span class="user-level">管理员</span>
+									<span class="caret"></span>
+								</span>
+                    </a>
+                    <div class="clearfix"></div>
+
+                    <div class="collapse in" id="collapseExample" aria-expanded="true" style="">
+                        <ul class="nav">
+                            <li>
+                                <a href="#profile">
+                                    <span class="link-collapse">退出登录</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav">
+                <li class="nav-item active">
+                    <a href="index.html">
+                        <i class="la la-dashboard"></i>
+                        <p>会员管理</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group form-inline">
+                                    <label for="name" class="col-md-3 col-form-label">姓名：</label>
+                                    <div class="col-md-6 p-0">
+                                        <input type="text" class="form-control input-full" id="name" placeholder="请输入姓名">
+                                    </div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="phone" class="col-md-3 col-form-label">手机号码：</label>
+                                    <div class="col-md-6 p-0">
+                                        <input type="text" class="form-control input-full" id="phone" placeholder="请输入手机号码">
+                                    </div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="password" class="col-md-3 col-form-label">密码：</label>
+                                    <div class="col-md-6 p-0">
+                                        <input type="password" class="form-control input-full" id="password" placeholder="请输入密码">
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-inline">
+                                    <label for="password" class="col-md-3 col-form-label"></label>
+                                    <button class="btn btn-success p-2" onclick="saveUser()">保存</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            2018@
+        </footer>
+    </div>
+</div>
+</div>
+</body>
+<script>
+    function saveUser(){
+        var name = $("#name").val();
+        var phone = $("#phone").val();
+        var password = $("#password").val();
+
+        if(name == ''){
+            alert("请输入用户名！");
+            return;
+        }
+        if(password == ''){
+            alert("请输入密码！");
+            return;
+        }
+        $.ajax({
+            type: 'post',
+            url: "/user/edit",
+            data: {
+                name: name,
+                phone: phone,
+                password: password
+            },
+            success:function (data) {
+
+                console.log(data);
+                if(data.status == 1){
+                    alert("新增成功");
+                    window.location.href="/user/list";
+                }
+            }
+        })
+    }
+</script>
+<script src="../assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="../assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="../assets/js/core/popper.min.js"></script>
+<script src="../assets/js/core/bootstrap.min.js"></script>
+<script src="../assets/js/plugin/chartist/chartist.min.js"></script>
+<script src="../assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="../assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="../assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="../assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+</html>
