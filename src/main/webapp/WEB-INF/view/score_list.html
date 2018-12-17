@@ -66,32 +66,37 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
+                            <div class="card-header ">
+                                <h4 class="card-title">用户成绩列表</h4>
+                                <div class="card-sub">
+                                    <div class="form-inline">
+                                        <a href="/score/add?userId=$userId"><button class="btn btn-primary ml-4">新增成绩</button></a>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="card-body">
-                                <input type="hidden" id="user_id" value="${user.id}">
-                                <div class="form-group form-inline">
-                                    <label for="name" class="col-md-3 col-form-label">姓名：</label>
-                                    <div class="col-md-6 p-0">
-                                        <input type="text" value="${user.name}" class="form-control input-full" id="name" placeholder="请输入姓名">
-                                    </div>
-                                </div>
-                                <div class="form-group form-inline">
-                                    <label for="phone" class="col-md-3 col-form-label">手机号码：</label>
-                                    <div class="col-md-6 p-0">
-                                        <input type="text" value="${user.phone}" class="form-control input-full" id="phone" placeholder="请输入手机号码">
-                                    </div>
-                                </div>
-                                <div class="form-group form-inline">
-                                    <label for="password" class="col-md-3 col-form-label">密码：</label>
-                                    <div class="col-md-6 p-0">
-                                        <input type="password" class="form-control input-full" id="password" placeholder="请输入密码">
-                                    </div>
-                                </div>
-
-                                <div class="form-group form-inline">
-                                    <label for="password" class="col-md-3 col-form-label"></label>
-                                    <button class="btn btn-success p-2" onclick="saveUser()">保存</button>
-                                    <button class="btn col-md-2 btn-success p-2" onclick="javascript :history.back(-1);">返回</button>
-                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">id</th>
+                                            <th scope="col">编号</th>
+                                            <th scope="col">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        #foreach( $score in $scoreList)
+                                            <tr>
+                                                <td>$score.id</td>
+                                                <td>$score.addCode</td>
+                                                <td>
+                                                    <a href="/score/edit?id=$score.id"><button class="btn btn-primary">修改</button></a>
+                                                    <a href="/score/preview?id=$score.id"><button class="btn btn-primary">预览</button></a>
+                                                    <a href="javascript:;" onclick="deleteScoreUser($score.id)"><button class="btn btn-primary">删除</button></a>
+                                                </td>
+                                            </tr>
+                                        #end
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -106,35 +111,10 @@
 </div>
 </body>
 <script>
-    function saveUser(){
-        var id = $("#user_id").val();
-        var name = $("#name").val();
-        var phone = $("#phone").val();
-        var password = $("#password").val();
-
-        if(name == ''){
-            alert("请输入用户名！");
-            return;
+    function deleteScoreUser(id){
+        if(confirm("确定要删除该成绩吗？")){
+            window.location.href="/score/delete?id="+id;
         }
-
-        $.ajax({
-            type: 'post',
-            url: "/user/edit",
-            data: {
-                id:id,
-                name: name,
-                phone: phone,
-                password: password
-            },
-            success:function (data) {
-
-                console.log(data);
-                if(data.status == 1){
-                    alert("修改成功");
-                    window.location.href="/user/list";
-                }
-            }
-        })
     }
 </script>
 <script src="../assets/js/core/jquery.3.2.1.min.js"></script>

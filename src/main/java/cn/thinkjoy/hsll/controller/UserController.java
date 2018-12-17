@@ -29,7 +29,7 @@ import java.util.*;
 @Scope("prototype")
 @Controller("userController")
 @RequestMapping(value = "/user")
-public class UserController {
+public class UserController extends BaseController{
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 

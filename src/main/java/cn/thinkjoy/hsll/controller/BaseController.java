@@ -4,6 +4,7 @@ package cn.thinkjoy.hsll.controller;
  * Created by wpliu on 16/3/2.
  */
 
+import cn.thinkjoy.hsll.bean.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,10 @@ public class BaseController {
         return jsonString;
     }
 
+    public User getLoginUser(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("login_user");
+        return user;
+    }
 
 
 

@@ -1,5 +1,6 @@
 package cn.thinkjoy.hsll.controller;
 
+import cn.thinkjoy.hsll.bean.UploadBean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,34 +27,42 @@ public class UploadController {
 
 
 
-    String upAddress="http://192.168.0.102:8282/upload/";
+    String upAddress="http://127.0.0.1:8080/upload/";
 
     @RequestMapping(value = "/upload")
     @ResponseBody
-    public String upload(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) {
+    public Object upload(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) {
 
         System.out.println("开始");
-        String path = request.getSession().getServletContext().getRealPath("upload");
-        String fileName = file.getOriginalFilename();
-//        String fileName = new Date().getTime()+".jpg";
-        int l=fileName.lastIndexOf(".");
-        String fileTail=fileName.substring(l);
-        String newFileName=System.currentTimeMillis()+fileTail;
-        System.out.println(path);
-        File targetFile = new File(path, newFileName);
-        if(!targetFile.exists()){
-            targetFile.mkdirs();
-        }
-
+        UploadBean uploadBean = new UploadBean();
         //保存
         try {
+            String path = request.getSession().getServletContext().getRealPath("upload");
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+            path = path+"/"+df.format(new Date());
+
+            String fileName = file.getOriginalFilename();
+    //        String fileName = new Date().getTime()+".jpg";
+            int l=fileName.lastIndexOf(".");
+            String fileTail=fileName.substring(l);
+            String newFileName=System.currentTimeMillis()+fileTail;
+            System.out.println(path);
+            File targetFile = new File(path, newFileName);
+            if(!targetFile.exists()){
+                targetFile.mkdirs();
+            }
+
             file.transferTo(targetFile);
+
+            uploadBean.setImageUrl(upAddress+newFileName);
+            uploadBean.setState(1);
+
         } catch (Exception e) {
             e.printStackTrace();
+            uploadBean.setImageUrl("");
+            uploadBean.setState(0);
         }
-
-
-        return upAddress+newFileName;
+        return uploadBean;
     }
 
     @RequestMapping(value = "/index")

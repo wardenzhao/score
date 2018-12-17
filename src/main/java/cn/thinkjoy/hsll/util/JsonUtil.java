@@ -1,11 +1,13 @@
 package cn.thinkjoy.hsll.util;
 
+
 import com.alibaba.fastjson.JSONObject;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * json工具类
@@ -50,4 +52,11 @@ public class JsonUtil {
 		}
 		return null;
 	}
+
+	//对象转换为List集合
+	public static <T extends Object> List<T> strToList(String str, Class<T> clazz) {
+		List<T> list = JSONObject.parseArray(str, clazz);
+		return list;
+	}
+
 }

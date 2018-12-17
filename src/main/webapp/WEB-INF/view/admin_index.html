@@ -42,7 +42,7 @@
                     <div class="collapse in" id="collapseExample" aria-expanded="true" style="">
                         <ul class="nav">
                             <li>
-                                <a href="#profile">
+                                <a href="/loginout">
                                     <span class="link-collapse">退出登录</span>
                                 </a>
                             </li>
@@ -52,7 +52,7 @@
             </div>
             <ul class="nav">
                 <li class="nav-item active">
-                    <a href="index.html">
+                    <a href="/user/list">
                         <i class="la la-dashboard"></i>
                         <p>会员管理</p>
                     </a>
@@ -80,30 +80,31 @@
                             <div class="card-body">
                                 <table class="table">
                                     <thead>
-                                        <tr>
-                                            <th scope="col">id</th>
-                                            <th scope="col">用户名</th>
-                                            <th scope="col">姓名</th>
-                                            <th scope="col">手机号码</th>
-                                            <th scope="col">操作</th>
-                                        </tr>
+                                    <tr>
+                                        <th scope="col">id</th>
+                                        <th scope="col">用户名</th>
+                                        <th scope="col">姓名</th>
+                                        <th scope="col">手机号码</th>
+                                        <th scope="col">操作</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        #foreach( $user in $userList)
-                                            <tr>
-                                                <td>$user.id</td>
-                                                <td>$user.username</td>
-                                                <td>$user.name</td>
-                                                <td>$user.phone</td>
-                                                <td>
-                                                    <a href="/user/edit?id=$user.id"><button class="btn btn-primary">修改</button></a>
-                                                    <a href="javascript:;" onclick="deleteUser($user.id)"><button class="btn btn-primary">删除</button></a>
-                                                    <a href="#"><button class="btn btn-primary">查看成绩</button></a>
-                                                </td>
-                                            </tr>
-                                        #end
+                                    #foreach( $user in $userList)
+                                    <tr>
+                                        <td>$user.id</td>
+                                        <td>$user.username</td>
+                                        <td>$user.name</td>
+                                        <td>$user.phone</td>
+                                        <td>
+                                            <a href="/user/edit?id=$user.id"><button class="btn btn-primary">修改</button></a>
+                                            <a href="javascript:;" onclick="deleteUser($user.id)"><button class="btn btn-primary">删除</button></a>
+                                            <a href="/score/list?userId=$user.id"><button class="btn btn-primary">查看成绩</button></a>
+                                        </td>
+                                    </tr>
+                                    #end
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                     </div>
@@ -117,18 +118,6 @@
 </div>
 </div>
 </body>
-<script>
-    function searchUser(){
-        var username = $("#username").val();
-        var name = $("#name").val();
-        window.location.href="/user/list?username="+username+"&name="+name;
-    }
-    function deleteUser(id){
-        if(confirm("确定要删除该用户吗？")){
-            window.location.href="/user/delete?id="+id;
-        }
-    }
-</script>
 <script src="../assets/js/core/jquery.3.2.1.min.js"></script>
 <script src="../assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 <script src="../assets/js/core/popper.min.js"></script>
@@ -141,4 +130,26 @@
 <script src="../assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
 <script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
 <script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script type="text/javascript" src="../assets/js/plugin/bootstrap-paginator.js"></script>
+<script>
+    function searchUser(){
+        var username = $("#username").val();
+        var name = $("#name").val();
+        window.location.href="/user/list?username="+username+"&name="+name;
+    }
+    function deleteUser(id){
+        if(confirm("确定要删除该用户吗？")){
+            window.location.href="/user/delete?id="+id;
+        }
+    }
+    $(function(){
+        $('.table tbody').paginathing({
+            perPage: 10,
+            insertAfter: '.table',
+            pageNumbers: false
+        });
+
+    });
+
+</script>
 </html>

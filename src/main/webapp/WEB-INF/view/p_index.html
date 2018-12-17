@@ -1,29 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title></title>
-
-    <style>
-        table,table tr th, table tr td { border:1px solid #0094ff; }
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>成绩查询</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="../assets/css/ready.css">
+    <link rel="stylesheet" href="../assets/css/demo.css">
 </head>
 <body>
-    <div style="width: 100%">
-        <table border="1" width="95%">
-            <tr>
-                <th>Month</th>
-                <th>Savings</th>
-            </tr>
-            <tr>
-                <td>January</td>
-                <td>$100</td>
-            </tr>
-            <tr>
-                <td>February</td>
-                <td>$80</td>
-            </tr>
-        </table>
+<div class="wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th scope="col-xs-3 col-md-3">姓名</th>
+                            <th scope="col-xs-3 col-md-3">$user.name</th>
+                            <th scope="col-xs-3 col-md-3">编号</th>
+                            <th scope="col-xs-3 col-md-3">$user.usercode</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>本周进度</td>
+                                <td colspan="3">$score.weekProgress</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">测试</td>
+                                <td>时间：$score.testMsg.testTime</td>
+                                <td>卷子：$score.testMsg.testJuanzi</td>
+                                <td>成绩：$score.testMsg.testScore</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">$score.testMsg.testFenxi</td>
+                            </tr>
+                            #set($homeworkSize=$!{score.homeworkMsg.size()}+1)
+                            <tr>
+                                <td rowspan="$!{homeworkSize}">作业情况</td>
+                                <td>时间</td>
+                                <td>作业内容</td>
+                                <td>完成情况</td>
+                            </tr>
+                            #foreach( $homework in $score.homeworkMsg)
+                                <tr>
+                                    <td>$homework.homeworkTime</td>
+                                    <td>$homework.homeworkContent</td>
+                                    <td>$homework.homeworkFinish</td>
+                                </tr>
+                            #end
+                            <tr>
+                                <td>老师寄语</td>
+                                <td colspan="3">$score.teacherComment</td>
+                            </tr>
+                            <tr>
+                                <td>家长反馈</td>
+                                <td colspan="3">$score.parentComment</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+</div>
 </body>
+
+<script src="../assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="../assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="../assets/js/core/popper.min.js"></script>
+<script src="../assets/js/core/bootstrap.min.js"></script>
+<script type="text/javascript" src="../assets/js/plugin/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="../assets/js/plugin/moment-with-locales.js"></script>
+<script type="text/javascript" src="../assets/js/plugin/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../assets/js/plugin/chartist/chartist.min.js"></script>
+<script src="../assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="../assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="../assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="../assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
 </html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>后台管理</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="../assets/css/ready.css">
+    <link rel="stylesheet" href="../assets/css/demo.css">
+</head>
+<body>
+<div class="wrapper">
+    <div class="main-header">
+        <div class="logo-header">
+            <a href="index.html" class="logo">
+                成绩管理系统
+            </a>
+            <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+        </div>
+    </div>
+    <div class="sidebar">
+        <div class="scrollbar-inner sidebar-wrapper">
+            <div class="user">
+                <div class="photo">
+                    <img src="../assets/img/profile.jpg">
+                </div>
+                <div class="info">
+                    <a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+								<span>
+									admin
+									<span class="user-level">管理员</span>
+									<span class="caret"></span>
+								</span>
+                    </a>
+                    <div class="clearfix"></div>
+
+                    <div class="collapse in" id="collapseExample" aria-expanded="true" style="">
+                        <ul class="nav">
+                            <li>
+                                <a href="#profile">
+                                    <span class="link-collapse">退出登录</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav">
+                <li class="nav-item active">
+                    <a href="index.html">
+                        <i class="la la-dashboard"></i>
+                        <p>会员管理</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <input type="hidden" id="user_id" value="$userId"/>
+                                <input type="hidden" id="score_id" value="$score.id"/>
+                                <div class="form-group form-inline">
+                                    <label for="week_progress" class="col-md-3 col-form-label">本周进度：</label>
+                                    <div class="col-md-9">
+                                        <textarea class="form-control" style="width: 95%" id="week_progress" name="weekProgress" rows="4">$score.weekProgress</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-inline">
+                                    <label for="week_progress" class="col-md-3 col-form-label">测试：</label>
+                                    <div class="col-md-9 form-inline">
+                                        <div class="col-md-3 p-2 form-inline">
+                                            <input type="text" class="form-control input-full" id="test_time" value="$score.testMsg.testTime" placeholder="请输入时间">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-inline">
+                                    <label for="week_progress" class="col-md-3 col-form-label"></label>
+                                    <div class="col-md-9 form-inline">
+                                        <div class="col-md-9 p-2 form-inline">
+                                            <input id="test_juanzi1" name="test_juanzi1" value="$score.testMsg.testJuanzi" class="form-control input-full col-md-6" type="text" placeholder="请输入卷子">
+                                            <input id="test_juanzi" name="test_juanzi" value="$score.testMsg.testJuanzi" type="hidden">
+                                            <input id="file_choose" type="file" style="display: none" name="file"/>
+                                            <button class="btn btn-primary m-2" onclick="fileChoose()">选择文件</button>
+                                            <button class="btn btn-primary m-2" onclick="uploadFile()">点击上传</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="week_progress" class="col-md-3 col-form-label"></label>
+                                    <div class="col-md-9 form-inline">
+                                        <div class="col-md-3 p-2 form-inline">
+                                            <input type="text" class="form-control input-full" value="$score.testMsg.testScore" id="test_score" placeholder="请输入成绩">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-inline">
+                                    <label for="week_progress" class="col-md-3 col-form-label"></label>
+                                    <div class="col-md-9 form-inline">
+                                        <textarea class="form-control" style="width: 95%"  id="test_fenxi" id="fenxi" name="fenxi" rows="4">$score.testMsg.testFenxi</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-inline">
+                                    <label for="week_progress" class="col-md-3 col-form-label">作业情况：</label>
+                                    <div class="col-md-9 form-inline">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col-3">时间</th>
+                                                    <th scope="col-3">作业内容</th>
+                                                    <th scope="col-3">完成情况</th>
+                                                    <th scope="col-1"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                #foreach( $homework in $score.homeworkMsg)
+                                                    <tr>
+                                                        <td><input type="text" class="form-control input-full" value="$homework.homeworkTime" name="homework_time" placeholder="请输入时间"></td>
+                                                        <td><input type="text" class="form-control input-full" value="$homework.homeworkContent" name="homework_content" placeholder="请输入作业内容"></td>
+                                                        <td><input type="text" class="form-control input-full" value="$homework.homeworkFinish" name="homework_finish" placeholder="请输入作业情况"></td>
+                                                        <td><div class="icon-preview"><i class="la la-times-circle"></i></div></td>
+                                                    </tr>
+                                                #end
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-inline">
+                                    <label for="week_progress" class="col-md-3 col-form-label"></label>
+                                    <button class="btn btn-danger" >添加作业情况</button>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="teacher_comment" class="col-md-3 col-form-label">老师寄语：</label>
+                                    <div class="col-md-9 p-0">
+                                        <textarea class="form-control" style="width: 95%"  id="teacher_comment" name="teacherComment" rows="4">$score.teacherComment</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="parent_comment" class="col-md-3 col-form-label">家长反馈：</label>
+                                    <div class="col-md-9 p-0">
+                                        <textarea class="form-control" style="width: 95%"  id="parent_comment" name="parentComment" rows="4">$score.parentComment</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-inline">
+                                    <label for="parent_comment" class="col-md-3 col-form-label"></label>
+                                    <button class="btn col-md-2 btn-success" onclick="saveScore()">保存</button>
+                                    <button class="btn col-md-2 btn-warning m-2" onclick="javascript :history.back(-1);">返回</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            2018@
+        </footer>
+    </div>
+</div>
+</div>
+</body>
+
+<script src="../assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="../assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="../assets/js/core/popper.min.js"></script>
+<script src="../assets/js/core/bootstrap.min.js"></script>
+<script type="text/javascript" src="../assets/js/plugin/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="../assets/js/plugin/moment-with-locales.js"></script>
+<script type="text/javascript" src="../assets/js/plugin/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../assets/js/plugin/chartist/chartist.min.js"></script>
+<script src="../assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+<script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<script src="../assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<script src="../assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="../assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+<script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
+<script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="../assets/js/ajaxfileupload.js"></script>
+
+
+<script>
+    $(function(){
+        $(".icon-preview").click(function(){
+            $(this).parent().parent().remove();
+        }) ;
+        $("#file_choose").change(function(){
+            alert($(this).val())
+            var file = $(this).val();
+            var fileName = getFileName(file);
+            $("#test_juanzi1").val(fileName);
+        });
+        $(".btn-danger").click(function(){
+            var html = '<tr><td><input type="text" class="form-control input-full" name="homework_time" placeholder="请输入时间"></td>' +
+                    '<td><input type="text" class="form-control input-full" name="homework_content" placeholder="请输入作业内容"></td>' +
+                    '<td><input type="text" class="form-control input-full" name="homework_finish" placeholder="请输入作业情况"></td>' +
+                    '<td><div class="icon-preview"><i class="la la-times-circle"></i></div></td></tr>';
+            if($(".table-bordered tbody tr").length > 0){
+                $(".table-bordered tbody tr:last").after(html);
+            }else{
+                $(".table-bordered tbody").html(html);
+            }
+            $(".icon-preview").click(function(){
+                $(this).parent().parent().remove();
+            });
+        });
+
+        $('#test_time').datetimepicker({
+            format: 'yyyy-mm-dd',
+            todayBtn: true,
+            language:  'zh-CN',
+            autoclose:true,
+            minView: "month"
+        });
+    });
+
+    function fileChoose(){
+        $("#file_choose").click();
+    }
+    function uploadFile(){
+        $.ajaxFileUpload({
+            url : '/file/upload',//后台请求地址
+            type: 'post',//请求方式  当要提交自定义参数时，这个参数要设置成post
+            secureuri : false,//是否启用安全提交，默认为false。
+            fileElementId : 'file_choose',// 需要上传的文件域的ID，即<input type="file">的ID。
+            dataType : 'json',//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。如果json返回的带pre,这里修改为json即可解决。
+            success : function (json, status) {//提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+                alert("上传成功");
+                $("#test_juanzi").val(json.imageUrl);
+                $("#test_juanzi1").val(json.imageUrl);
+            },
+            error : function (json, status, e) {//提交失败自动执行的处理函数。
+
+            }
+        });
+    }
+
+    function getFileName(o){
+        var pos=o.lastIndexOf("\\");
+        return o.substring(pos+1);
+    }
+
+    function saveScore(){
+        var weekProgress = $("#week_progress").val();
+
+        var test_msg = {};
+
+        var test_time = $("#test_time").val();
+        var test_juanzi = $("#test_juanzi").val();
+        var test_score = $("#test_score").val();
+        var test_fenxi = $("#test_fenxi").val();
+        if(test_time != '' || test_juanzi != '' || test_score != '' || test_fenxi != ''){
+            test_msg = new testMsgFunction(test_time,test_juanzi,test_score,test_fenxi);
+        }
+
+        var testMsg = JSON.stringify(test_msg);
+
+        var homework_msg = [];
+
+        $("input[name='homework_time']").each(function(index,element){
+            var homework_time = $(this).val();
+            var homework_content = $("input[name='homework_content']").eq(index).val();
+            var homework_finish = $("input[name='homework_finish']").eq(index).val();
+            //如果三个都不为空，组装数据
+            if(homework_time != '' && homework_content != '' && homework_finish != ''){
+                var homework_msg_json = {"homeworkTime":homework_time,"homeworkContent":homework_content,"homeworkFinish":homework_finish};
+                homework_msg.push(homework_msg_json)
+            }
+        });
+
+        var homeworkMsg = JSON.stringify(homework_msg)
+
+        var teacherComment =  $("#teacher_comment").val();
+        var parentComment =  $("#parent_comment").val();
+
+
+        if(weekProgress == ''){
+            alert("请输入周计划！");
+            return;
+        }
+
+        var user_id = $("#user_id").val();
+        var id = $("#score_id").val();
+
+        $.ajax({
+            type: 'post',
+            url: "/score/edit",
+            data: {
+                id:id,
+                userId:user_id,
+                weekProgress: weekProgress,
+                testMsg:testMsg,
+                homeworkMsg:homeworkMsg,
+                teacherComment: teacherComment,
+                parentComment: parentComment
+            },
+            success:function (data) {
+
+                console.log(data);
+                if(data.status == 1){
+                    alert("修改成功");
+                    window.location.href="/score/list?userId="+user_id;
+                }
+            }
+        })
+    }
+
+    function testMsgFunction(testTime,testJuanzi,testScore,testFenxi){
+        this.testTime = testTime;
+        this.testJuanzi = testJuanzi;
+        this.testScore = testScore;
+        this.testFenxi = testFenxi;
+    }
+</script>
+</html>

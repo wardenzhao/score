@@ -5,7 +5,13 @@ package cn.thinkjoy.hsll.controller;
  */
 
 import cn.thinkjoy.hsll.bean.User;
+import cn.thinkjoy.hsll.bean.UserScore;
+import cn.thinkjoy.hsll.resp.HomeworkMsg;
+import cn.thinkjoy.hsll.resp.ScoreResp;
+import cn.thinkjoy.hsll.resp.TestMsg;
+import cn.thinkjoy.hsll.service.UserScoreService;
 import cn.thinkjoy.hsll.service.UserService;
+import cn.thinkjoy.hsll.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,15 +32,24 @@ import java.util.Map;
 @Scope("prototype")
 @Controller("loginController")
 @RequestMapping(value = "/")
-public class LoginController {
+public class LoginController extends BaseController{
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserScoreService userScoreService;
+
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public ModelAndView clickView(HttpServletRequest request){
+
+        return new ModelAndView("login");
+    }
+
+    @RequestMapping(value = "/loginout",method = RequestMethod.GET)
+    public ModelAndView loginout(HttpServletRequest request){
 
         return new ModelAndView("login");
     }
@@ -74,12 +90,35 @@ public class LoginController {
     @RequestMapping(value = "/parent/index")
     public ModelAndView parentIndex(HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("login_user");
+        Map<String,Object> map = new HashMap<String,Object>();
         if(user != null && user.getId()>0){
+            List<UserScore> list = userScoreService.getByUserId(user.getId());
+            if(list != null && list.size()>0){
 
+                UserScore userScore = list.get(0);
+                ScoreResp scoreResp = new ScoreResp();
+                scoreResp.setId(userScore.getId());
+                scoreResp.setWeekProgress(userScore.getWeekProgress());
+                scoreResp.setTeacherComment(userScore.getTeacherComment());
+                scoreResp.setParentComment(userScore.getParentComment());
 
+                if(userScore.getTestMsg() != null){
+                    TestMsg testMsg = new TestMsg();
+                    testMsg = JsonUtil.tranjsonStrToObject(userScore.getTestMsg(), TestMsg.class);
+                    scoreResp.setTestMsg(testMsg);
+                }
+
+                if(userScore.getHomeworkMsg() != null){
+                    List<HomeworkMsg> homeworkMsgList = JsonUtil.strToList(userScore.getHomeworkMsg(),HomeworkMsg.class);
+                    scoreResp.setHomeworkMsg(homeworkMsgList);
+                }
+
+                map.put("score",scoreResp);
+            }
+            map.put("user",user);
         }else{
             return new ModelAndView("login");
         }
-        return new ModelAndView("p_index");
+        return new ModelAndView("p_index",map);
     }
 }

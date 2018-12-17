@@ -4,19 +4,19 @@
 <mapper namespace="cn.thinkjoy.hsll.dao.UserDao">
 
     <select id="getUserByUsername" resultType="cn.thinkjoy.hsll.bean.User">
-        select id as id, username as username, name as name, password as password, phone as phone, type as type, status as status,create_time as createTime
+        select id as id, username as username, name as name, password as password, phone as phone, usercode as usercode, type as type, status as status,create_time as createTime
         FROM user
         WHERE username = #{username}
     </select>
 
     <select id="getUserList" resultType="cn.thinkjoy.hsll.bean.User">
-        select id as id, username as username, name as name, password as password, phone as phone, type as type, status as status,create_time as createTime
+        select id as id, username as username, name as name, password as password, phone as phone, usercode as usercode, type as type, status as status,create_time as createTime
         FROM user
         WHERE 1=1
         <if test="username!=null and username!=''"> AND username like CONCAT(CONCAT('%',#{username}),'%')</if>
         <if test="name!=null and name!=''"> AND name like CONCAT(CONCAT('%',#{name}),'%')</if>
         order by id desc
-        limit ${(page-1)*pageSize},${pageSize}
+--         limit ${(page-1)*pageSize},${pageSize}
     </select>
 
 
@@ -39,7 +39,7 @@
     </update>
 
     <select id="findOneById" resultType="cn.thinkjoy.hsll.bean.User">
-        select id as id, username as username, name as name, password as password, phone as phone, type as type, status as status,create_time as createTime
+        select id as id, username as username, name as name, password as password, phone as phone, usercode as usercode, type as type, status as status,create_time as createTime
         FROM user
         WHERE id=#{id}
     </select>
