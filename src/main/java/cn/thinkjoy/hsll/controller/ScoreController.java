@@ -4,6 +4,7 @@ package cn.thinkjoy.hsll.controller;
  * Created by wpliu on 16/3/2.
  */
 
+import cn.thinkjoy.hsll.bean.User;
 import cn.thinkjoy.hsll.bean.UserScore;
 import cn.thinkjoy.hsll.resp.HomeworkMsg;
 import cn.thinkjoy.hsll.resp.ScoreResp;
@@ -35,7 +36,7 @@ import java.util.Map;
 @Scope("prototype")
 @Controller("scoreController")
 @RequestMapping(value = "/score")
-public class ScoreController {
+public class ScoreController extends BaseController{
 
     private static final Logger logger = LoggerFactory.getLogger(ScoreController.class);
 
@@ -47,17 +48,27 @@ public class ScoreController {
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public ModelAndView clickView(HttpServletRequest request,long userId){
+
+        if(getLoginUser(request) == null){
+            return new ModelAndView("redirect:/");
+        }
         Map<String,Object> map = new HashMap<>();
 
         List<UserScore> scoreList = userScoreService.getByUserId(userId);
 
-        map.put("scoreList",scoreList);
+        User user = userService.findOneById(userId);
+
+        map.put("scoreList", scoreList);
         map.put("userId",userId);
+        map.put("user",user);
         return new ModelAndView("score_list",map);
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public ModelAndView add(HttpServletRequest request,long userId){
+        if(getLoginUser(request) == null){
+            return new ModelAndView("redirect:/");
+        }
         Map<String,Object> map = new HashMap<>();
         map.put("userId",userId);
         return new ModelAndView("score_add",map);
@@ -67,7 +78,11 @@ public class ScoreController {
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
     public Map<String,String> edit(HttpServletRequest request,@ModelAttribute UserScore userScore){
         Map<String,String> map = new HashMap<>();
-
+        if(getLoginUser(request) == null){
+            map.put("status","0");
+            map.put("msg","登录失效，请重新登录！");
+            return map;
+        }
         try{
             if(userScore.getId()>0){
                 userScoreService.updateData(userScore);
@@ -91,6 +106,9 @@ public class ScoreController {
 
     @RequestMapping(value = "/edit",method = RequestMethod.GET)
     public ModelAndView editGet(HttpServletRequest request,long id){
+        if(getLoginUser(request) == null){
+            return new ModelAndView("redirect:/");
+        }
         Map<String,Object> map = new HashMap<>();
         UserScore userScore = userScoreService.findOneById(id);
         ScoreResp scoreResp = new ScoreResp();
@@ -119,14 +137,20 @@ public class ScoreController {
 
 
     @RequestMapping(value = "/delete",method = RequestMethod.GET)
-    public ModelAndView delete(HttpServletRequest request,long id){
+    public ModelAndView delete(HttpServletRequest request,long id,long userId){
+        if(getLoginUser(request) == null){
+            return new ModelAndView("redirect:/");
+        }
         userScoreService.deleteById(id);
-        return new ModelAndView("redirect:/score/list");
+        return new ModelAndView("redirect:/score/list?userId="+userId);
     }
 
 
     @RequestMapping(value = "preview",method = RequestMethod.GET)
     public ModelAndView preview(HttpServletRequest request,long id){
+        if(getLoginUser(request) == null){
+            return new ModelAndView("redirect:/");
+        }
         Map<String,Object> map = new HashMap<>();
         UserScore userScore = userScoreService.findOneById(id);
         ScoreResp scoreResp = new ScoreResp();

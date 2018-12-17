@@ -33,9 +33,27 @@
                             </tr>
                             <tr>
                                 <td rowspan="2">测试</td>
-                                <td>时间：$score.testMsg.testTime</td>
-                                <td>卷子：$score.testMsg.testJuanzi</td>
-                                <td>成绩：$score.testMsg.testScore</td>
+                                <td>
+                                    #if("$!{score.testMsg.testTime}"!="")
+                                        时间：$score.testMsg.testTime
+                                    #else
+                                        无
+                                    #end
+                                </td>
+                                <td>
+                                    #if("$!{score.testMsg.testJuanzi}"!="")
+                                        <a href="$score.testMsg.testJuanzi">点击查看</a>
+                                    #else
+                                        无
+                                    #end
+                                </td>
+                                <td>
+                                    #if("$!{score.testMsg.testScore}"!="")
+                                        成绩：$score.testMsg.testScore
+                                    #else
+                                        无
+                                    #end
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="3">$score.testMsg.testFenxi</td>

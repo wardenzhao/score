@@ -39,6 +39,9 @@ public class UserController extends BaseController{
 
     @RequestMapping(value = "/list")
     public ModelAndView userList(HttpServletRequest request){
+        if(getLoginUser(request) == null){
+            return new ModelAndView("redirect:/");
+        }
         int pageSize = 10;
         int page = 1;
         String username = request.getParameter("username");
@@ -54,12 +57,17 @@ public class UserController extends BaseController{
 
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     public ModelAndView add(HttpServletRequest request){
-
+        if(getLoginUser(request) == null){
+            return new ModelAndView("redirect:/");
+        }
         return new ModelAndView("user_add");
     }
 
     @RequestMapping(value = "/edit",method = RequestMethod.GET)
     public ModelAndView editGet(HttpServletRequest request,long id){
+        if(getLoginUser(request) == null){
+            return new ModelAndView("redirect:/");
+        }
         User user = userService.findOneById(id);
         Map<String,Object> map = new HashMap<>();
         map.put("user",user);
@@ -70,7 +78,11 @@ public class UserController extends BaseController{
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
     public Map<String,String> edit(HttpServletRequest request,@ModelAttribute User user){
         Map<String,String> map = new HashMap<>();
-
+        if(getLoginUser(request) == null){
+            map.put("status","0");
+            map.put("msg","登录失效，请重新登录！");
+            return map;
+        }
         try{
             if(user.getId() >0 ){
                 String username = PinYinUtil.getPingYin(user.getName());
@@ -96,6 +108,9 @@ public class UserController extends BaseController{
 
     @RequestMapping(value = "/delete",method = RequestMethod.GET)
     public ModelAndView delete(HttpServletRequest request,long id){
+        if(getLoginUser(request) == null){
+            return new ModelAndView("redirect:/");
+        }
         userService.deleteById(id);
         return new ModelAndView("redirect:/user/list");
     }

@@ -27,7 +27,7 @@ public class UploadController {
 
 
 
-    String upAddress="http://127.0.0.1:8080/upload/";
+    String upAddress="http://118.31.37.164:8080/upload/";
 
     @RequestMapping(value = "/upload")
     @ResponseBody
@@ -39,7 +39,7 @@ public class UploadController {
         try {
             String path = request.getSession().getServletContext().getRealPath("upload");
             SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-            path = path+"/"+df.format(new Date());
+            path = path+"/WEB-INF/"+df.format(new Date());
 
             String fileName = file.getOriginalFilename();
     //        String fileName = new Date().getTime()+".jpg";
@@ -54,7 +54,7 @@ public class UploadController {
 
             file.transferTo(targetFile);
 
-            uploadBean.setImageUrl(upAddress+newFileName);
+            uploadBean.setImageUrl(upAddress+df.format(new Date())+"/"+newFileName);
             uploadBean.setState(1);
 
         } catch (Exception e) {

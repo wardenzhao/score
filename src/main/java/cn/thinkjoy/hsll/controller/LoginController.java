@@ -73,12 +73,16 @@ public class LoginController extends BaseController{
 
         User user = userService.getUserByUsername(username);
         if(user != null && user.getId()>0){
-            if(user.getType() == 1){
-                request.getSession().setAttribute("login_user",user);
-                return new ModelAndView("redirect:/user/list");
+            if(user.getPassword().equals(password)){
+                if(user.getType() == 1){
+                    request.getSession().setAttribute("login_user",user);
+                    return new ModelAndView("redirect:/user/list");
+                }else{
+                    request.getSession().setAttribute("login_user",user);
+                    return new ModelAndView("p_index");
+                }
             }else{
-                request.getSession().setAttribute("login_user",user);
-                return new ModelAndView("p_index");
+                msg.put("msg","用户名或者密码错误。");
             }
         }else{
             msg.put("msg","用户名或者密码错误。");
