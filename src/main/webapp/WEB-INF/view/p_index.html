@@ -10,84 +10,79 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="../assets/css/ready.css">
     <link rel="stylesheet" href="../assets/css/demo.css">
+    <style>
+        th{word-wrap: break-word;}
+        td{word-wrap: break-word;}
+    </style>
 </head>
 <body>
-<div class="wrapper">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th scope="col-xs-3 col-md-3">姓名</th>
-                            <th scope="col-xs-3 col-md-3">$user.name</th>
-                            <th scope="col-xs-3 col-md-3">编号</th>
-                            <th scope="col-xs-3 col-md-3">$user.usercode</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>本周进度</td>
-                                <td colspan="3">$score.weekProgress</td>
-                            </tr>
-                            <tr>
-                                <td rowspan="2">测试</td>
-                                <td>
-                                    #if("$!{score.testMsg.testTime}"!="")
-                                        时间：$score.testMsg.testTime
-                                    #else
-                                        无
-                                    #end
-                                </td>
-                                <td>
-                                    #if("$!{score.testMsg.testJuanzi}"!="")
-                                        <a href="$score.testMsg.testJuanzi">点击查看</a>
-                                    #else
-                                        无
-                                    #end
-                                </td>
-                                <td>
-                                    #if("$!{score.testMsg.testScore}"!="")
-                                        成绩：$score.testMsg.testScore
-                                    #else
-                                        无
-                                    #end
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="3">$score.testMsg.testFenxi</td>
-                            </tr>
-                            #set($homeworkSize=$!{score.homeworkMsg.size()}+1)
-                            <tr>
-                                <td rowspan="$!{homeworkSize}">作业情况</td>
-                                <td>时间</td>
-                                <td>作业内容</td>
-                                <td>完成情况</td>
-                            </tr>
-                            #foreach( $homework in $score.homeworkMsg)
-                                <tr>
-                                    <td>$homework.homeworkTime</td>
-                                    <td>$homework.homeworkContent</td>
-                                    <td>$homework.homeworkFinish</td>
-                                </tr>
-                            #end
-                            <tr>
-                                <td>老师寄语</td>
-                                <td colspan="3">$score.teacherComment</td>
-                            </tr>
-                            <tr>
-                                <td>家长反馈</td>
-                                <td colspan="3">$score.parentComment</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
+<p></p>
+<table class="table table-bordered" style="padding-top:15px; padding-left: 5px;padding-right: 5px;">
+    <thead>
+    <tr>
+        <th style="width:25%">姓名</th>
+        <th style="width:25%">$user.name</th>
+        <th style="width:25%">编号</th>
+        <th style="width:25%">$user.usercode</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>本周进度</td>
+            <td colspan="3">$score.weekProgress</td>
+        </tr>
+        <tr>
+            <td rowspan="2">测试</td>
+            <td>
+                #if("$!{score.testMsg.testTime}"!="")
+                    时间：$score.testMsg.testTime
+                #else
+                    无
+                #end
+            </td>
+            <td>
+                #if("$!{score.testMsg.testJuanzi}"!="")
+                    <a href="$score.testMsg.testJuanzi">点击查看</a>
+                #else
+                    无
+                #end
+            </td>
+            <td>
+                #if("$!{score.testMsg.testScore}"!="")
+                    成绩：$score.testMsg.testScore
+                #else
+                    无
+                #end
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">$score.testMsg.testFenxi</td>
+        </tr>
+        #set($homeworkSize=$!{score.homeworkMsg.size()}+1)
+        <tr>
+            <td rowspan="$!{homeworkSize}">作业情况</td>
+            <td>时间</td>
+            <td>作业内容</td>
+            <td>完成情况</td>
+        </tr>
+        #foreach( $homework in $score.homeworkMsg)
+            <tr>
+                <td>$homework.homeworkTime</td>
+                <td>$homework.homeworkContent</td>
+                <td>$homework.homeworkFinish</td>
+            </tr>
+        #end
+        <tr>
+            <td>老师寄语</td>
+            <td colspan="3">$score.teacherComment</td>
+        </tr>
+        <tr>
+            <td>家长反馈</td>
+            <td colspan="3">$score.parentComment</td>
+        </tr>
+    </tbody>
+</table>
+
 </body>
 
 <script src="../assets/js/core/jquery.3.2.1.min.js"></script>

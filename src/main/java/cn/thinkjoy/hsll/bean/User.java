@@ -13,6 +13,7 @@ public class User implements Serializable {
     private String name;
     private String password;
     private String phone;
+    private int grade;
     private String usercode;
     private int type;
     private int status;
@@ -56,6 +57,14 @@ public class User implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
     }
 
     public String getUsercode() {

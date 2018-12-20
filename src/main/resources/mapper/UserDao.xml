@@ -4,31 +4,33 @@
 <mapper namespace="cn.thinkjoy.hsll.dao.UserDao">
 
     <select id="getUserByUsername" resultType="cn.thinkjoy.hsll.bean.User">
-        select id as id, username as username, name as name, password as password, phone as phone, usercode as usercode, type as type, status as status,create_time as createTime
+        select id as id, username as username, name as name, password as password, phone as phone, grade as grade,usercode as usercode, type as type, status as status,create_time as createTime
         FROM user
-        WHERE username = #{username}
+        WHERE username = #{username} or phone = #{username}
     </select>
 
     <select id="getUserList" resultType="cn.thinkjoy.hsll.bean.User">
-        select id as id, username as username, name as name, password as password, phone as phone, usercode as usercode, type as type, status as status,create_time as createTime
+        select id as id, username as username, name as name, password as password, phone as phone, grade as grade,usercode as usercode, type as type, status as status,create_time as createTime
         FROM user
         WHERE 1=1
         <if test="username!=null and username!=''"> AND username like CONCAT(CONCAT('%',#{username}),'%')</if>
         <if test="name!=null and name!=''"> AND name like CONCAT(CONCAT('%',#{name}),'%')</if>
+        <if test="grade!=null and grade!='' and grade!='0'"> AND grade = #{grade}</if>
         order by id desc
 --         limit ${(page-1)*pageSize},${pageSize}
     </select>
 
 
     <insert id="insertData">
-        INSERT INTO user(username,name,password,phone,usercode,type,status,create_time)
-        VALUES (#{user.username},#{user.name},#{user.password},#{user.phone},#{user.usercode},#{user.type},#{user.status},#{user.createTime})
+        INSERT INTO user(username,name,password,phone,grade,usercode,type,status,create_time)
+        VALUES (#{user.username},#{user.name},#{user.password},#{user.phone},#{user.grade},#{user.usercode},#{user.type},#{user.status},#{user.createTime})
     </insert>
 
     <update id="updateData">
         UPDATE user
         set username = #{user.username},
-        name = #{user.name}
+        name = #{user.name},
+        grade = #{user.grade}
         <if test="user.password!=null and user.password!=''">
             ,password = #{user.password}
         </if>
@@ -39,7 +41,7 @@
     </update>
 
     <select id="findOneById" resultType="cn.thinkjoy.hsll.bean.User">
-        select id as id, username as username, name as name, password as password, phone as phone, usercode as usercode, type as type, status as status,create_time as createTime
+        select id as id, username as username, name as name, password as password, phone as phone, grade as grade,usercode as usercode, type as type, status as status,create_time as createTime
         FROM user
         WHERE id=#{id}
     </select>

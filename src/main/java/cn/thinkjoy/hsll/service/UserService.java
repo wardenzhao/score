@@ -12,7 +12,7 @@ public interface UserService {
 
     User getUserByUsername(String username);
 
-    List<User> getUserList(String username, String name, int pageSize, int page);
+    List<User> getUserList(String username, String name,String grade, int pageSize, int page);
 
     void insertData(User user);
 

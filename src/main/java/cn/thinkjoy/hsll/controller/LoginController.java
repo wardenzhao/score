@@ -79,7 +79,7 @@ public class LoginController extends BaseController{
                     return new ModelAndView("redirect:/user/list");
                 }else{
                     request.getSession().setAttribute("login_user",user);
-                    return new ModelAndView("p_index");
+                    return new ModelAndView("redirect:/parent/index");
                 }
             }else{
                 msg.put("msg","用户名或者密码错误。");
@@ -121,7 +121,7 @@ public class LoginController extends BaseController{
             }
             map.put("user",user);
         }else{
-            return new ModelAndView("login");
+            return new ModelAndView("redirect:/parent/index");
         }
         return new ModelAndView("p_index",map);
     }

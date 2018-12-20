@@ -46,12 +46,14 @@ public class UserController extends BaseController{
         int page = 1;
         String username = request.getParameter("username");
         String name = request.getParameter("name");
-        List<User> listUser = userService.getUserList(username, name, pageSize, page);
+        String grade = request.getParameter("grade");
+        List<User> listUser = userService.getUserList(username, name, grade,pageSize, page);
         Map<String,Object> map = new HashMap<String,Object>();
 
         map.put("userList",listUser);
         map.put("username",username);
         map.put("name",name);
+        map.put("grade",grade);
         return new ModelAndView("admin_index",map);
     }
 
@@ -89,6 +91,14 @@ public class UserController extends BaseController{
                 user.setUsername(username);
                 userService.updateData(user);
             }else{
+                if(user.getPhone() != null && !"".equals(user.getPhone())){
+                    User phoneUser = userService.getUserByUsername(user.getPhone());
+                    if(phoneUser != null && phoneUser.getId()>0){
+                        map.put("status","0");
+                        map.put("msg","您输入的手机号码已被注册请重新输入！");
+                        return map;
+                    }
+                }
                 String username = PinYinUtil.getPingYin(user.getName());
                 user.setUsercode(createStuNo());
                 user.setUsername(username);
@@ -124,7 +134,7 @@ public class UserController extends BaseController{
         SimpleDateFormat df = new SimpleDateFormat("yyMMdd");//设置日期格式
         no.append(df.format(new Date()));
 
-        String key = no.toString()+"_no";
+        String key = no.toString()+"_score_no";
         RedisUtil redisUtil = new RedisUtil();
         Object num = redisUtil.get(key);
         if(num == null){

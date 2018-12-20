@@ -37,9 +37,9 @@ public class UploadController {
         UploadBean uploadBean = new UploadBean();
         //保存
         try {
-            String path = request.getSession().getServletContext().getRealPath("upload");
+            String path = request.getSession().getServletContext().getRealPath("/WEB-INF/upload/");
             SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-            path = path+"/WEB-INF/"+df.format(new Date());
+            path = path+df.format(new Date());
 
             String fileName = file.getOriginalFilename();
     //        String fileName = new Date().getTime()+".jpg";

@@ -12,7 +12,7 @@ public interface UserDao {
 
     User getUserByUsername(@Param("username") String username);
 
-    List<User> getUserList(@Param("username") String username,@Param("name") String name,@Param("pageSize") int pageSize,@Param("page") int page);
+    List<User> getUserList(@Param("username") String username,@Param("name") String name,@Param("grade") String grade,@Param("pageSize") int pageSize,@Param("page") int page);
 
     void insertData(@Param("user") User user);
 

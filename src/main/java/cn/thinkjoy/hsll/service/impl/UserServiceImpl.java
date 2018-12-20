@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> getUserList(String username, String name, int pageSize, int page) {
-        return userDao.getUserList(username, name, pageSize, page);
+    public List<User> getUserList(String username, String name, String grade, int pageSize, int page) {
+        return userDao.getUserList(username, name, grade, pageSize, page);
     }
 
     @Override
