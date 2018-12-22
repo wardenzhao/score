@@ -121,7 +121,7 @@ public class LoginController extends BaseController{
             }
             map.put("user",user);
         }else{
-            return new ModelAndView("redirect:/parent/index");
+            return new ModelAndView("redirect:/");
         }
         return new ModelAndView("p_index",map);
     }

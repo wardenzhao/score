@@ -16,8 +16,8 @@
     </style>
 </head>
 <body>
-<p></p>
-<table class="table table-bordered" style="padding-top:15px; padding-left: 5px;padding-right: 5px;">
+<input type="hidden" id="score_id" value="$score.id"/>
+<table class="table table-bordered" style="margin-top:15px;">
     <thead>
     <tr>
         <th style="width:25%">姓名</th>
@@ -78,11 +78,17 @@
         </tr>
         <tr>
             <td>家长反馈</td>
-            <td colspan="3">$score.parentComment</td>
+            <td colspan="3">
+                <textarea class="form-control"  id="parent_comment" name="parentComment" rows="4">$score.parentComment</textarea>
+            </td>
         </tr>
     </tbody>
 </table>
 
+<div style="margin: 15px 5px;" class="text-center">
+    <button onclick="updateParentComment()" class="btn btn-primary">提交家长反馈</button>
+    <a href="/user/editPassword"><button class="btn btn-primary">修改密码</button></a>
+</div>
 </body>
 
 <script src="../assets/js/core/jquery.3.2.1.min.js"></script>
@@ -100,5 +106,32 @@
 <script src="../assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
 <script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
 <script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script>
+    function updateParentComment(){
+        var parent_comment = $("#parent_comment").val();
+        var score_id = $("#score_id").val();
+        if(parent_comment == ''){
+            alert("请输入家长反馈！");
+            return;
+        }
 
+        $.ajax({
+            type: 'post',
+            url: "/score/updateParentComment",
+            data: {
+                scoreId:score_id,
+                parentComment:parent_comment
+            },
+            success:function (data) {
+                console.log(data);
+                if(data.status == 1){
+                    alert("提交成功！");
+                    window.location.href="/parent/index";
+                }else{
+                    alert(data.msg);
+                }
+            }
+        })
+    }
+</script>
 </html>

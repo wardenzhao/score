@@ -125,6 +125,48 @@ public class UserController extends BaseController{
         return new ModelAndView("redirect:/user/list");
     }
 
+    @RequestMapping(value = "/editPassword",method = RequestMethod.GET)
+    public ModelAndView editPassword(HttpServletRequest request){
+        if(getLoginUser(request) == null){
+            return new ModelAndView("redirect:/");
+        }
+        return new ModelAndView("edit_password");
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/changePassword",method = RequestMethod.POST)
+    public Map<String,String> changePassword(HttpServletRequest request,String oldPassword, String newPassword,String rePassword){
+        Map<String,String> map = new HashMap<>();
+        if(getLoginUser(request) == null){
+            map.put("status","0");
+            map.put("msg","登录失效，请重新登录！");
+            return map;
+        }
+        try{
+            User user = (User) request.getSession().getAttribute("login_user");
+            if(user.getPassword().equals(oldPassword)){
+                if(newPassword.equals(rePassword)){
+                    user.setPassword(newPassword);
+                    userService.updateData(user);
+                }else{
+                    map.put("status","0");
+                    map.put("msg","两次输入新密码不一致！");
+                    return map;
+                }
+            }else{
+                map.put("status","0");
+                map.put("msg","旧密码输入不正确！");
+                return map;
+            }
+            map.put("status","1");
+        }catch (Exception e){
+            map.put("status","0");
+            map.put("msg","请求出错！");
+            e.printStackTrace();
+        }
+        return map;
+    }
+
     /**
      * 学生编号生成
      * @return

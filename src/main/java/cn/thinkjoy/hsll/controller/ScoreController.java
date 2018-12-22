@@ -103,6 +103,28 @@ public class ScoreController extends BaseController{
         return map;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/updateParentComment",method = RequestMethod.POST)
+    public Map<String,String> edit(HttpServletRequest request,long scoreId,String parentComment){
+        Map<String,String> map = new HashMap<>();
+        if(getLoginUser(request) == null){
+            map.put("status","0");
+            map.put("msg","登录失效，请重新登录！");
+            return map;
+        }
+        try{
+            UserScore userScore = userScoreService.findOneById(scoreId);
+            userScore.setParentComment(parentComment);
+            userScoreService.updateData(userScore);
+            map.put("status","1");
+        }catch (Exception e){
+            map.put("status","0");
+            map.put("msg","请求出错！");
+            e.printStackTrace();
+        }
+        return map;
+    }
+
 
     @RequestMapping(value = "/edit",method = RequestMethod.GET)
     public ModelAndView editGet(HttpServletRequest request,long id){
