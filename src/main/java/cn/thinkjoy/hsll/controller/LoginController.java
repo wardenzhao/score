@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,9 +118,14 @@ public class LoginController extends BaseController{
                     scoreResp.setHomeworkMsg(homeworkMsgList);
                 }
 
+                if(userScore.getHomeworkImage() != null){
+                    scoreResp.setHomeworkImage(Arrays.asList(userScore.getHomeworkImage().split(",")));
+                }
+
                 map.put("score",scoreResp);
             }
             map.put("user",user);
+            map.put("type",0);
         }else{
             return new ModelAndView("redirect:/");
         }

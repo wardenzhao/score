@@ -25,10 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 点击拨号控制类
@@ -151,6 +148,10 @@ public class ScoreController extends BaseController{
             scoreResp.setHomeworkMsg(list);
         }
 
+        if(userScore.getHomeworkImage() != null){
+            scoreResp.setHomeworkImage(Arrays.asList(userScore.getHomeworkImage().split(",")));
+        }
+
         map.put("userId",userScore.getUserId());
         map.put("score",scoreResp);
 
@@ -193,9 +194,26 @@ public class ScoreController extends BaseController{
             scoreResp.setHomeworkMsg(list);
         }
 
+        if(userScore.getHomeworkImage() != null){
+            scoreResp.setHomeworkImage(Arrays.asList(userScore.getHomeworkImage().split(",")));
+        }
+
         map.put("user",userService.findOneById(userScore.getUserId()));
         map.put("score",scoreResp);
+        map.put("type",1);
 
         return new ModelAndView("p_index",map);
+    }
+
+    @RequestMapping(value = "homeworkImage",method = RequestMethod.GET)
+    public ModelAndView homeworkImage(HttpServletRequest request,long id){
+        Map<String,Object> map = new HashMap<>();
+        UserScore userScore = userScoreService.findOneById(id);
+
+        if(userScore.getHomeworkImage() != null){
+            map.put("homeworkImage", Arrays.asList(userScore.getHomeworkImage().split(",")));
+        }
+
+        return new ModelAndView("homework_image",map);
     }
 }

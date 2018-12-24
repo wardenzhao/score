@@ -4,7 +4,7 @@
 <mapper namespace="cn.thinkjoy.hsll.dao.UserScoreDao">
 
     <select id="getByUserId" resultType="cn.thinkjoy.hsll.bean.UserScore">
-        select id as id, user_id as userId,add_code as addCode, week_progress as weekProgress,test_msg as testMsg,homework_msg as homeworkMsg,
+        select id as id, user_id as userId,add_code as addCode, week_progress as weekProgress,test_msg as testMsg,homework_msg as homeworkMsg,homework_image as homeworkImage,
         teacher_comment as teacherComment,parent_comment as parentComment,create_time as createTime
         FROM user_score
         WHERE user_id = #{userId}
@@ -12,12 +12,12 @@
     </select>
 
     <insert id="insertData">
-        INSERT INTO user_score(user_id,add_code,week_progress,test_msg,homework_msg,teacher_comment,parent_comment,create_time)
-        VALUES (#{userScore.userId},#{userScore.addCode},#{userScore.weekProgress},#{userScore.testMsg},#{userScore.homeworkMsg},#{userScore.teacherComment},#{userScore.parentComment},#{userScore.createTime})
+        INSERT INTO user_score(user_id,add_code,week_progress,test_msg,homework_msg,homework_image,teacher_comment,parent_comment,create_time)
+        VALUES (#{userScore.userId},#{userScore.addCode},#{userScore.weekProgress},#{userScore.testMsg},#{userScore.homeworkMsg},#{userScore.homeworkImage},#{userScore.teacherComment},#{userScore.parentComment},#{userScore.createTime})
     </insert>
 
     <select id="findOneById" resultType="cn.thinkjoy.hsll.bean.UserScore">
-        select id as id, user_id as userId,add_code as addCode, week_progress as weekProgress,test_msg as testMsg,homework_msg as homeworkMsg,
+        select id as id, user_id as userId,add_code as addCode, week_progress as weekProgress,test_msg as testMsg,homework_msg as homeworkMsg,homework_image as homeworkImage,
         teacher_comment as teacherComment,parent_comment as parentComment,create_time as createTime
         FROM user_score
         WHERE id = #{scoreId}
@@ -29,6 +29,7 @@
         set week_progress = #{userScore.weekProgress},
         test_msg = #{userScore.testMsg},
         homework_msg = #{userScore.homeworkMsg},
+        homework_image = #{userScore.homeworkImage},
         teacher_comment = #{userScore.teacherComment},
         parent_comment = #{userScore.parentComment}
         WHERE id = #{userScore.id}

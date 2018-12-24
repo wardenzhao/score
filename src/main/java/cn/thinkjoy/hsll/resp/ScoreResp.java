@@ -14,6 +14,7 @@ public class ScoreResp {
     private String weekProgress;
     private TestMsg testMsg;
     private List<HomeworkMsg> homeworkMsg;
+    private List<String> homeworkImage;
     private String teacherComment;
     private String parentComment;
     private Date createTime;
@@ -65,6 +66,14 @@ public class ScoreResp {
 
     public void setHomeworkMsg(List<HomeworkMsg> homeworkMsg) {
         this.homeworkMsg = homeworkMsg;
+    }
+
+    public List<String> getHomeworkImage() {
+        return homeworkImage;
+    }
+
+    public void setHomeworkImage(List<String> homeworkImage) {
+        this.homeworkImage = homeworkImage;
     }
 
     public String getTeacherComment() {

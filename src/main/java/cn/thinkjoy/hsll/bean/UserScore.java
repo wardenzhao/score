@@ -14,6 +14,7 @@ public class UserScore implements Serializable {
     private String weekProgress;
     private String testMsg;
     private String homeworkMsg;
+    private String homeworkImage;
     private String teacherComment;
     private String parentComment;
     private Date createTime;
@@ -65,6 +66,14 @@ public class UserScore implements Serializable {
 
     public void setHomeworkMsg(String homeworkMsg) {
         this.homeworkMsg = homeworkMsg;
+    }
+
+    public String getHomeworkImage() {
+        return homeworkImage;
+    }
+
+    public void setHomeworkImage(String homeworkImage) {
+        this.homeworkImage = homeworkImage;
     }
 
     public String getTeacherComment() {

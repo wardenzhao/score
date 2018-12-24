@@ -70,22 +70,22 @@
                                 <h4 class="card-title">用户列表</h4>
                                 <div class="card-sub">
                                     <div class="form-inline">
-                                        <input type="text" class="form-control input-full col-md-3 ml-2" id="username" placeholder="用户名">
-                                        <input type="text" class="form-control input-full col-md-3 ml-2" id="name" placeholder="姓名">
+                                        <input type="text" class="form-control input-full col-md-3 ml-2" id="username" #if("$!{username}"!="")value="$username"#end placeholder="用户名">
+                                        <input type="text" class="form-control input-full col-md-3 ml-2" id="name" #if("$!{name}"!="")value="$name"#end placeholder="姓名">
                                         <select class="form-control col-md-3 ml-2" id="grade">
                                             <option value="0">请选择</option>
-                                            <option value="1">一年级</option>
-                                            <option value="2">二年级</option>
-                                            <option value="3">三年级</option>
-                                            <option value="4">四年级</option>
-                                            <option value="5">五年级</option>
-                                            <option value="6">六年级</option>
-                                            <option value="7">七年级</option>
-                                            <option value="8">八年级</option>
-                                            <option value="9">九年级</option>
-                                            <option value="10">高一</option>
-                                            <option value="11">高二</option>
-                                            <option value="12">高三</option>
+                                            <option value="1" #if($!grade == 1)selected="selected"#end>一年级</option>
+                                            <option value="2" #if($!grade == 2)selected="selected"#end>二年级</option>
+                                            <option value="3" #if($!grade == 3)selected="selected"#end>三年级</option>
+                                            <option value="4" #if($!grade == 4)selected="selected"#end>四年级</option>
+                                            <option value="5" #if($!grade == 5)selected="selected"#end>五年级</option>
+                                            <option value="6" #if($!grade == 6)selected="selected"#end>六年级</option>
+                                            <option value="7" #if($!grade == 7)selected="selected"#end>七年级</option>
+                                            <option value="8" #if($!grade == 8)selected="selected"#end>八年级</option>
+                                            <option value="9" #if($!grade == 9)selected="selected"#end>九年级</option>
+                                            <option value="10" #if($!grade == 10)selected="selected"#end>高一</option>
+                                            <option value="11" #if($!grade == 11)selected="selected"#end>高二</option>
+                                            <option value="12" #if($!grade == 12)selected="selected"#end>高三</option>
                                         </select>
                                         <button class="btn btn-primary ml-2" onclick="searchUser()">搜索</button>
                                         <a href="/user/add"><button class="btn btn-primary ml-4">新增会员</button></a>

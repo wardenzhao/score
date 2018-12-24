@@ -58,7 +58,12 @@
         <tr>
             <td colspan="3">$score.testMsg.testFenxi</td>
         </tr>
-        #set($homeworkSize=$!{score.homeworkMsg.size()}+1)
+
+        #if($score.homeworkImage.size() > 0)
+            #set($homeworkSize=$!{score.homeworkMsg.size()}+2)
+        #else
+            #set($homeworkSize=$!{score.homeworkMsg.size()}+1)
+        #end
         <tr>
             <td rowspan="$!{homeworkSize}">作业情况</td>
             <td>时间</td>
@@ -72,23 +77,35 @@
                 <td>$homework.homeworkFinish</td>
             </tr>
         #end
+        #if($score.homeworkImage.size() > 0)
+            <tr>
+                <td colspan="3"><a href="/score/homeworkImage?id=$score.id">查看作业图片</a></td>
+            </tr>
+        #end
         <tr>
             <td>老师寄语</td>
             <td colspan="3">$score.teacherComment</td>
         </tr>
         <tr>
             <td>家长反馈</td>
-            <td colspan="3">
-                <textarea class="form-control"  id="parent_comment" name="parentComment" rows="4">$score.parentComment</textarea>
-            </td>
+            #if($!type == 0)
+                <td colspan="3">
+                    <textarea class="form-control"  id="parent_comment" name="parentComment" rows="4">$score.parentComment</textarea>
+                </td>
+            #else
+                <td colspan="3">
+                    $score.parentComment
+                </td>
+            #end
         </tr>
     </tbody>
 </table>
-
-<div style="margin: 15px 5px;" class="text-center">
-    <button onclick="updateParentComment()" class="btn btn-primary">提交家长反馈</button>
-    <a href="/user/editPassword"><button class="btn btn-primary">修改密码</button></a>
-</div>
+#if($!type == 0)
+    <div style="margin: 15px 5px;" class="text-center">
+        <button onclick="updateParentComment()" class="btn btn-primary">提交家长反馈</button>
+        <a href="/user/editPassword"><button class="btn btn-primary">修改密码</button></a>
+    </div>
+#end
 </body>
 
 <script src="../assets/js/core/jquery.3.2.1.min.js"></script>

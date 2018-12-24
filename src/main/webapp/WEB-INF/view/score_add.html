@@ -10,6 +10,20 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="../assets/css/ready.css">
     <link rel="stylesheet" href="../assets/css/demo.css">
+    <style>
+        .img-div {
+            display: inline-block;
+            position: relative;
+        }
+
+        .img-div .delete {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 10px;
+            height: 10px;
+        }
+    </style>
 </head>
 <body>
 <div class="wrapper">
@@ -148,10 +162,17 @@
                                         </table>
                                     </div>
                                 </div>
+                                <div class="form-group form-inline">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-9" id="homework_image">
 
+                                    </div>
+                                </div>
                                 <div class="form-group form-inline">
                                     <label for="week_progress" class="col-md-3 col-form-label"></label>
-                                    <button class="btn btn-danger" >添加作业情况</button>
+                                    <input id="hommework_file" type="file" style="display: none" onchange="uploadHomeworkFile()" name="file"/>
+                                    <button class="btn btn-danger homework-add" >添加作业情况</button>
+                                    <button class="btn btn-danger m-2" onclick="$('#hommework_file').click();">添加作业图片</button>
                                 </div>
                                 <div class="form-group form-inline">
                                     <label for="teacher_comment" class="col-md-3 col-form-label">老师寄语：</label>
@@ -189,17 +210,9 @@
 <script src="../assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 <script src="../assets/js/core/popper.min.js"></script>
 <script src="../assets/js/core/bootstrap.min.js"></script>
-<script src="../assets/js/plugin/chartist/chartist.min.js"></script>
 <script type="text/javascript" src="../assets/js/plugin/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="../assets/js/plugin/moment-with-locales.js"></script>
 <script type="text/javascript" src="../assets/js/plugin/bootstrap-datetimepicker.zh-CN.js"></script>
-<script src="../assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
-<script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-<script src="../assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-<script src="../assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
-<script src="../assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
-<script src="../assets/js/plugin/chart-circle/circles.min.js"></script>
-<script src="../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <script src="../assets/js/ajaxfileupload.js"></script>
 
 
@@ -214,7 +227,7 @@
             var fileName = getFileName(file);
             $("#test_juanzi1").val(fileName);
         });
-        $(".btn-danger").click(function(){
+        $(".homework-add").click(function(){
             var html = '<tr><td><input type="text" class="form-control input-full" name="homework_time" placeholder="请输入时间"></td>' +
                     '<td><input type="text" class="form-control input-full" name="homework_content" placeholder="请输入作业内容"></td>' +
                     '<td><input type="text" class="form-control input-full" name="homework_finish" placeholder="请输入作业情况"></td>' +
@@ -258,6 +271,46 @@
         });
     }
 
+    function uploadHomeworkFile(){
+        if(!isImage($("#hommework_file").val())){
+            return;
+        }
+        $.ajaxFileUpload({
+            url : '/file/upload',//后台请求地址
+            type: 'post',//请求方式  当要提交自定义参数时，这个参数要设置成post
+            secureuri : false,//是否启用安全提交，默认为false。
+            fileElementId : 'hommework_file',// 需要上传的文件域的ID，即<input type="file">的ID。
+            dataType : 'json',//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。如果json返回的带pre,这里修改为json即可解决。
+            success : function (json, status) {//提交成功后自动执行的处理函数，参数data就是服务器返回的数据。
+                alert("上传成功");
+                var html = "<div class='col-md-3 img-div'><input type='hidden' name='homework_image_url' value='"+json.imageUrl+"' /><img style='width:100%' src='"+json.imageUrl+"' /><i class='la la-times-circle delete'></i><div>"
+                if($("#homework_image div").length > 0){
+                    $(".img-div:last").after(html);
+                }else{
+                    $("#homework_image").html(html);
+                }
+
+                $(".delete").click(function(){
+                    $(this).parent().remove();
+                });
+            },
+            error : function (json, status, e) {//提交失败自动执行的处理函数。
+
+            }
+        });
+    }
+
+    /* 检查是否为图片 */
+    function isImage(filepath) {
+        var extStart = filepath.lastIndexOf(".");
+        var ext = filepath.substring(extStart, filepath.length).toUpperCase();
+        if (ext != ".BMP" && ext != ".PNG" && ext != ".GIF" && ext != ".JPG" && ext != ".JPEG") {
+            alert("只能上传bmp,png,gif,jpeg,jpg格式喔");
+            return false;
+        }
+        return true;
+    }
+
     function getFileName(o){
         var pos=o.lastIndexOf("\\");
         return o.substring(pos+1);
@@ -291,7 +344,17 @@
             }
         });
 
-        var homeworkMsg = JSON.stringify(homework_msg)
+        var homeworkMsg = JSON.stringify(homework_msg);
+
+        var homework_image_url = '';
+
+        $("input[name='homework_image_url']").each(function(index,element){
+            if(homework_image_url != ''){
+                homework_image_url += ','+ $(this).val();
+            }else{
+                homework_image_url = $(this).val();
+            }
+        });
 
         var teacherComment =  $("#teacher_comment").val();
         var parentComment =  $("#parent_comment").val();
@@ -312,6 +375,7 @@
                 weekProgress: weekProgress,
                 testMsg:testMsg,
                 homeworkMsg:homeworkMsg,
+                homeworkImage : homework_image_url,
                 teacherComment: teacherComment,
                 parentComment: parentComment
             },
